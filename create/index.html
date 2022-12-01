@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.min.js"
+        ></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../styles/reset.css" />
+        <link rel="stylesheet" href="../styles/global.css" />
+        <title>Add a participant</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="gutter-right logo">
+                <a href="./">See all workshops</a>
+                <a href="../create">Add a participant</a>
+            </div>
+        </header>
+        <button id="logout">Logout</button>
+        <main class="create-main">
+            <h2>Add a new participant</h2>
+            <form class="participant-form">
+                <label>
+                    Participant's name
+                    <input name="participant-name" />
+                </label>
+                <label>
+                    in workshop:
+                    <select id="workshop-selector" name="workshop-id"></select>
+                </label>
+                <button>Submit</button>
+            </form>
+        </main>
+        <footer>
+            <div class="copy gutter-right">&copy; 2021 Alchemy Code Lab</div>
+        </footer>
+        <script type="module" src="./create.js"></script>
+    </body>
+</html>

@@ -1,35 +1,52 @@
-import { redirectIfLoggedIn, signInUser, signupUser } from './fetch-utils.js';
+import { checkAuth, getWorkshops, logout } from './fetch-utils.js';
 
-const signInForm = document.getElementById('sign-in');
-const signInEmail = document.getElementById('sign-in-email');
-const signInPassword = document.getElementById('sign-in-password');
+checkAuth();
 
-const signUpForm = document.getElementById('sign-up');
-const signUpEmail = document.getElementById('sign-up-email');
-const signUpPassword = document.getElementById('sign-up-password');
+const workshopsDiv = document.getElementById('workshops-div');
+const logoutButton = document.getElementById('logout');
 
-self.addEventListener('load', () => {
-    redirectIfLoggedIn();
+logoutButton.addEventListener('click', () => {
+    logout();
 });
 
-signUpForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const user = await signupUser(signUpEmail.value, signUpPassword.value);
-
-    if (user) {
-        redirectIfLoggedIn();
-    } else {
-        console.error(user);
+async function displayWorkshops() {
+    // fetch & reset
+    const response = await getWorkshops();
+    workshopsDiv.innerHTML = '';
+    // iterate response, rendering
+    for (const item of response) {
+        // create
+        console.log(item);
+        const workshopDiv = document.createElement('div');
+        const nameH = document.createElement('h3');
+        const participantsDiv = document.createElement('div');
+        // style
+        workshopDiv.classList.add('workshop');
+        participantsDiv.classList.add('participants');
+        // propogate
+        workshopDiv.textContent = item.name;
+        // iterate participants, rendering
+        for (const subItem of item.participants) {
+            // create
+            const participantDiv = document.createElement('div');
+            // style
+            participantDiv.classList.add('participant');
+            // propogate
+            participantDiv.textContent = subItem.name;
+            // events
+            // participantDiv.addEventListener('click', async () => {
+            //     await removeParticpant();
+            //     await displayWorkshops();
+            // });
+            // consolidate
+            participantsDiv.append(participantDiv);
+        }
+        // consolidate
+        workshopDiv.append(nameH, participantsDiv);
+        workshopsDiv.append(workshopDiv);
     }
-});
+}
 
-signInForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const user = await signInUser(signInEmail.value, signInPassword.value);
-
-    if (user) {
-        redirectIfLoggedIn();
-    } else {
-        console.error(user);
-    }
+self.addEventListener('load', async () => {
+    await displayWorkshops();
 });
