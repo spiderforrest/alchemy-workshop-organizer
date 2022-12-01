@@ -58,3 +58,10 @@ export async function getWorkshops() {
         .match({ 'participants.user_id': client.auth.session().user.id });
     return checkError(response);
 }
+
+export async function createParticipant(item) {
+    const response = await client
+        .from('participants')
+        .insert({ name: item.name, workshop_id: item.workshop_id, user_id: client.auth.user().id });
+    return checkError(response);
+}
