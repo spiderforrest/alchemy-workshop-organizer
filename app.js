@@ -1,4 +1,4 @@
-import { checkAuth, getWorkshops, logout } from './fetch-utils.js';
+import { checkAuth, getWorkshops, logout, removeParticipant } from './fetch-utils.js';
 
 checkAuth();
 
@@ -29,17 +29,20 @@ async function displayWorkshops() {
         for (const subItem of item.participants) {
             // create
             const participantDiv = document.createElement('div');
+            const p = document.createElement('p');
+            const removeButton = document.createElement('button');
             // style
             participantDiv.classList.add('participant');
             // propogate
-            participantDiv.textContent = subItem.name;
+            p.textContent = subItem.name;
+            removeButton.textContent = 'Remove';
             // events
-            // participantDiv.addEventListener('click', async () => {
-            //     await removeParticpant();
-            //     await displayWorkshops();
-            // });
+            removeButton.addEventListener('click', async () => {
+                await removeParticipant(subItem.id);
+                await displayWorkshops();
+            });
             // consolidate
-            participantsDiv.append(participantDiv);
+            participantsDiv.append(p, removeButton);
         }
         // consolidate
         workshopDiv.append(nameH, participantsDiv);

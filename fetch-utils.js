@@ -65,3 +65,8 @@ export async function createParticipant(item) {
         .insert({ name: item.name, workshop_id: item.workshop_id, user_id: client.auth.user().id });
     return checkError(response);
 }
+
+export async function removeParticipant(id) {
+    const response = await client.from('participants').delete().match({ id: id }).single();
+    return checkError(response);
+}
