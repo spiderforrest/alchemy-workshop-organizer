@@ -8,9 +8,9 @@ form.addEventListener('submit', async (e) => {
     // get input
     const formData = new FormData(form);
     const name = formData.get('participant-name');
-    const family = formData.get('workshop-id');
+    const workshop = formData.get('workshop-id');
     // send to backend
-    await createParticipant({ name: name, family_id: family });
+    await createParticipant({ name: name, workshop_id: workshop });
     // go home
     location.replace('../');
 });
